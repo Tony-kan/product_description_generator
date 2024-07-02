@@ -14,6 +14,7 @@ async def get_all_products_description():
     return all_products(db_product_table.find())
 
 
+@app.get("/products/{product_id}")
 @app.post("/products")
 async def generate_product_description(product: Product):
     description = generate_description(
