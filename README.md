@@ -16,3 +16,10 @@ Product Description Generator:A backend api which takes product name and specs t
 -get all Products descriptions
 -get single product description
 -generate product description
+
+
+## how to run 
+-download/clone the repository
+-run uvicorn main:app --reload on cmd/gitbash/powershell
+-open the localhost url in the browser
+-add /docs for swagger ui to test the endpoints
