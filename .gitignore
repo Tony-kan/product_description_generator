@@ -1,4 +1,4 @@
 venv
 env3.*
 env
-app/ .env
+.env
