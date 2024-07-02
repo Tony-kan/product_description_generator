@@ -17,7 +17,7 @@ async def get_all_products_description():
 @app.post("/products")
 async def generate_product_description(product: Product):
     description = generate_description(
-        f"Product Name: {product.name}, Notes : {product.notes}")
+        f"Product Name: {product.name}, Specs : {product.specs}")
     new_product = {"name": product.name, "description": description}
     try:
         res = db_product_table.insert_one(dict(new_product))
