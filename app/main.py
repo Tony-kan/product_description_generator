@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from database.models import Product
+from fastapi.responses import StreamingResponse
 from database.schemas import all_products, individual_product
 from config import db_product_table
 from utils import generate_description
@@ -32,11 +33,20 @@ async def get_single_product_description(product_id: str):
 # an endpoint to generate the product description and store in the db
 @app.post("/products")
 async def generate_product_description(product: Product):
-    description = generate_description(
-        f"Product Name: {product.name}, Specs : {product.specs}")
-    new_product = {"name": product.name, "description": description}
-    try:
-        res = db_product_table.insert_one(dict(new_product))
-        return {"status_code": 200, "id": str(res.inserted_id)}
-    except Exception as e:
-        return HTTPException(status_code=500, detail=f"Error : {e}")
+    description_generator = generate_description(
+        f"Product Name: {product.name}, Specs: {product.specs}")
+
+    async def description_streamer():
+        description = ""
+        async for chunk in description_generator:
+            if chunk:
+                description += chunk
+                yield chunk
+        new_product = {"name": product.name, "description": description}
+        try:
+            res = db_product_table.insert_one(dict(new_product))
+            print(f"Product saved with ID: {res.inserted_id}")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error: {e}")
+
+    return StreamingResponse(description_streamer(), media_type="text/plain")
