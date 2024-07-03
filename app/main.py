@@ -57,4 +57,5 @@ async def generate_product_description(product: Product):
 if __name__ == '__main__':
     port = int(getenv("PORT", 8000))
     # uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
-    uvicorn.run(app)
+    # uvicorn.run(app)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
