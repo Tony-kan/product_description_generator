@@ -5,6 +5,7 @@ from database.schemas import all_products, individual_product
 from config import db_product_table
 from utils import generate_description
 from bson.objectid import ObjectId
+import uvicorn
 
 app = FastAPI()
 todo_router = APIRouter()
@@ -50,3 +51,8 @@ async def generate_product_description(product: Product):
             raise HTTPException(status_code=500, detail=f"Error: {e}")
 
     return StreamingResponse(description_streamer(), media_type="text/plain")
+
+
+if __name__ == '__main__':
+    port = int(getenv("PORT", 8000))
+    uvicorn.run("app.api:app", host="0.0.0.0", port=port, reload=True)
