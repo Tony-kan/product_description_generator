@@ -6,6 +6,7 @@ from config import db_product_table
 from utils import generate_description
 from bson.objectid import ObjectId
 import uvicorn
+from os import getenv
 
 app = FastAPI()
 todo_router = APIRouter()
@@ -55,4 +56,5 @@ async def generate_product_description(product: Product):
 
 if __name__ == '__main__':
     port = int(getenv("PORT", 8000))
-    uvicorn.run("app.api:app", host="0.0.0.0", port=port, reload=True)
+    # uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run(app)
