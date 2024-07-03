@@ -20,6 +20,7 @@ Product Description Generator:A backend api which takes product name and specs t
 
 ## how to run 
 - download/clone the repository
+- add MONGOURL and OPENAI_API_KEY in the .env.example
 - run uvicorn main:app --reload on cmd/gitbash/powershell
 - open the localhost url in the browser
 - add /docs for swagger ui to test the endpoints
